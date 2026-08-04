@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>�R�s�b�N�݌ɊǗ�</title>
+<title>コピック在庫管理</title>
 
 <style>
   body{
@@ -76,16 +76,16 @@
 <body>
 
 <div class="toolbar">
-  <button onclick="resetStock()">���Z�b�g</button>
-  <button onclick="window.print()">PDF�o��</button>
+  <button onclick="resetStock()">リセット</button>
+  <button onclick="window.print()">PDF出力</button>
 </div>
 
 <div class="board" id="board">
-  <img src="copicclassic.png" alt="�R�s�b�N�N���V�b�N">
+  <img src="copicclassic.png" alt="コピッククラシック">
 </div>
 
 <script>
-// �����ɐF�̈ʒu��ǉ����Ă���
+// ここに色の位置を追加していく
 const markers = [
   { code:'BV00', x:12, y:8 },
   { code:'BV04', x:21, y:8 },
@@ -118,14 +118,14 @@ markers.forEach(m => {
   let value = getStock(m.code);
   updateDisplay(el, value);
 
-  // �^�b�v��+1
+  // タップで+1
   el.addEventListener('click', () => {
     value++;
     setStock(m.code, value);
     updateDisplay(el, value);
   });
 
-  // ��������-1
+  // 長押しで-1
   let timer;
   el.addEventListener('touchstart', () => {
     timer = setTimeout(() => {
@@ -149,7 +149,7 @@ markers.forEach(m => {
 });
 
 function resetStock(){
-  if(confirm('�݌ɂ����ׂ�0�ɂ��܂����H')){
+  if(confirm('在庫をすべて0にしますか？')){
     markers.forEach(m => localStorage.removeItem(m.code));
     location.reload();
   }
