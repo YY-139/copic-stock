@@ -49,22 +49,23 @@
   }
 
   .counter{
-    position:absolute;
-    width:34px;
-    height:34px;
-    border-radius:50%;
-    background:#ffffffee;
-    border:2px solid #333;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    cursor:pointer;
-    user-select:none;
-    box-shadow:0 1px 3px rgba(0,0,0,.3);
-    transform:translate(-50%, -50%);
-  }
-
+  position:absolute;
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  background:#ffffffee;
+  color:#111;
+  border:2px solid #333;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:14px;
+  cursor:pointer;
+  user-select:none;
+  box-shadow:0 1px 3px rgba(0,0,0,.25);
+  transform:translate(-50%,-50%);
+}
   .counter.zero{
     background:#ffdddd;
     border-color:#d00;
@@ -87,11 +88,11 @@
 <script>
 // ここに色の位置を追加していく
 const markers = [
-  { code:'BV00', x:12, y:8 },
-  { code:'BV04', x:21, y:8 },
-  { code:'BV08', x:30, y:8 },
-  { code:'V04',  x:39, y:8 },
-  { code:'V09',  x:48, y:8 }
+  { code:'BV00', x:6.8,  y:3.6 },
+  { code:'BV04', x:14.5, y:3.6 },
+  { code:'BV08', x:22.2, y:3.6 },
+  { code:'V04',  x:30.0, y:3.6 },
+  { code:'V09',  x:37.8, y:3.6 }
 ];
 
 const board = document.getElementById('board');
