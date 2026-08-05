@@ -94,17 +94,45 @@
 
 <script>
 // ここに色の位置を追加していく
-const markers = [
-  { code:'BV00', x:15, y:18.3 },
-  { code:'BV04', x:25, y:18.3 },
-  { code:'BV08', x:35, y:18.3 },
-  { code:'BV23', x:45, y:18.3 },
-  { code:'BV31', x:55, y:18.3 },
-  { code:'V04',  x:65, y:18.3 },
-  { code:'V06',  x:75, y:18.3 },
-  { code:'V09',  x:85, y:18.3 },
-];
+// コード一覧（色名は不要）
+const codeText = `
+BV00 BV04 BV08 BV23 BV31 V04 V06 V09 V12 V15 V17
+RV02 RV04 RV06 RV09 RV10 RV11 RV13 RV14 RV17 RV19 RV21 RV25 RV29 RV32 RV34
+R00 R02 R05 R08 R11 R17 R20 R24 R27 R29 R32 R35 R37 R39 R59
+YR00 YR02 YR04 YR07 YR09 YR14 YR16 YR18 YR21 YR23 YR24
+Y00 Y02 Y06 Y08 Y11 Y13 Y15 Y17 Y19 Y21 Y23 Y26 Y38
+YG01 YG03 YG05 YG07 YG09 YG11 YG13 YG17 YG21 YG23 YG25 YG41 YG45 YG63 YG67 YG91 YG95 YG97 YG99
+G00 G02 G05 G07 G09 G12 G14 G16 G17 G19 G20 G21 G24 G28 G29 G40 G82 G85 G99
+BG02 BG05 BG09 BG10 BG11 BG13 BG15 BG18 BG32 BG34 BG45 BG49 BG99
+B00 B01 B02 B04 B05 B06 B12 B14 B16 B18 B21 B23 B24 B26 B29 B32 B34 B37 B39 B41 B45
+E00 E02 E04 E07 E09 E11 E13 E15 E19 E21 E25 E27 E29 E31 E33 E34 E35 E37 E39 E40 E41 E43 E44 E49 E51 E53 E55 E57 E59 E77
+C-0 C-1 C-2 C-3 C-4 C-5 C-6 C-7 C-8 C-9 C-10
+N-0 N-1 N-2 N-3 N-4 N-5 N-6 N-7 N-8 N-9 N-10
+T-0 T-1 T-2 T-3 T-4 T-5 T-6 T-7 T-8 T-9 T-10
+W-0 W-1 W-2 W-3 W-4 W-5 W-6 W-7 W-8 W-9 W-10
+0 100 110
+`;
 
+// 空白・改行を全部分割して配列化
+const codes = codeText.trim().split(/\s+/);
+
+const cols = 8;
+const startX = 15;
+const startY = 18.3;
+const stepX = 10;
+const stepY = 7.6;
+
+const markers = codes.map((code, index) => {
+  const col = index % cols;
+  const row = Math.floor(index / cols);
+
+  return {
+    code,
+    x: startX + col * stepX,
+    y: startY + row * stepY
+  };
+});
+  
 const board = document.getElementById('board');
 
 function getStock(code){
