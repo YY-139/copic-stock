@@ -101,10 +101,6 @@ function getStock(code){
   return Number(localStorage.getItem(code) || 0);
 }
 
-function setStock(code, value){
-  localStorage.setItem(code, value);
-}
-
 function updateDisplay(el, value){
   el.textContent = value;
   el.classList.toggle('zero', value === 0);
@@ -119,18 +115,22 @@ markers.forEach(m => {
   let value = getStock(m.code);
   updateDisplay(el, value);
 
- // シングルクリックで+1
-el.addEventListener('click', () => {
-  value++;
-  localStorage.setItem(m.code, value);
-  el.textContent = value;
-});
+  // シングルクリックで+1
+  el.addEventListener('click', () => {
+    value++;
+    localStorage.setItem(m.code, value);
+    updateDisplay(el, value);
+  });
 
-// ダブルクリックで-1
-el.addEventListener('dblclick', () => {
-  value = Math.max(0, value - 1);
-  localStorage.setItem(m.code, value);
-  el.textContent = value;
+  // ダブルクリックで-1
+  el.addEventListener('dblclick', () => {
+    value = Math.max(0, value - 1);
+    localStorage.setItem(m.code, value);
+    updateDisplay(el, value);
+  });
+
+  // ←これが超重要！画面に追加してる
+  board.appendChild(el);
 });
 
 function resetStock(){
