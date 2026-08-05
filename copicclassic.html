@@ -194,22 +194,6 @@ markers.forEach((m, index) => {
 
   let lastTap = 0;
 
-  el.addEventListener('click', () => {
-    const now = Date.now();
-
-    if (now - lastTap < 300) {
-      value = Math.max(0, value - 2);
-    } else {
-      value++;
-    }
-
-    lastTap = now;
-    localStorage.setItem(m.code, value);
-    updateDisplay(el, value);
-  });
-
-  board.appendChild(el);
-});
 // シングルクリック
 el.addEventListener('click', () => {
   const now = Date.now();
