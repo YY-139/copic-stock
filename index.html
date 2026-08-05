@@ -1,1 +1,82 @@
+<!DOCTYPE html>
 
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コピック在庫管理</title>
+
+<style>
+body{
+  margin:0;
+  font-family:sans-serif;
+  background:#f5f5f5;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  min-height:100vh;
+}
+
+.container{
+  width:min(92vw, 420px);
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+h1{
+  text-align:center;
+  margin-bottom:10px;
+}
+
+.card{
+  display:block;
+  padding:24px;
+  border-radius:20px;
+  text-decoration:none;
+  color:#111;
+  background:white;
+  box-shadow:0 4px 12px rgba(0,0,0,.08);
+  border:1px solid #eee;
+  transition:.15s;
+}
+
+.card:hover{
+  transform:translateY(-2px);
+}
+
+.card h2{
+  margin:0 0 6px;
+}
+
+.card p{
+  margin:0;
+  color:#666;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🎨 コピック在庫管理</h1>
+
+  <a class="card" href="classic.html">
+    <h2>クラシック</h2>
+    <p>Classic 214色</p>
+  </a>
+
+  <a class="card" href="sketch.html">
+    <h2>スケッチ</h2>
+    <p>Sketch 358色</p>
+  </a>
+
+  <a class="card" href="ciao.html">
+    <h2>チャオ</h2>
+    <p>Ciao 180色</p>
+  </a>
+</div>
+
+</body>
+</html>
