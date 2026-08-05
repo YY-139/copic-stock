@@ -120,15 +120,24 @@ const cols = 8;
 const startX = 15;
 const startY = 18.3;
 const stepX = 10;
-const stepY = 3.3;
+const stepY = 3.1;
+
+const totalRows = Math.ceil(codes.length / cols);
+const lastRowCount = codes.length % cols || cols;
 
 const markers = codes.map((code, index) => {
   const col = index % cols;
   const row = Math.floor(index / cols);
 
+  // 最終行だけ中央寄せ
+  let offset = 0;
+  if (row === totalRows - 1 && lastRowCount < cols) {
+    offset = ((cols - lastRowCount) * stepX) / 2;
+  }
+
   return {
     code,
-    x: startX + col * stepX,
+    x: startX + offset + col * stepX,
     y: startY + row * stepY
   };
 });
