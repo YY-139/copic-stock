@@ -53,9 +53,9 @@
   width:30px;
   height:30px;
   border-radius:50%;
-  background:#ffffffee;
-  color:#111;
-  border:2px solid #333;
+  background: rgba(255,255,255,0.20);
+  color:#FF0000;
+  border:2px solid #FF0000;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -63,13 +63,19 @@
   font-size:14px;
   cursor:pointer;
   user-select:none;
-  box-shadow:0 1px 3px rgba(0,0,0,.25);
   transform:translate(-50%,-50%);
-}
+  text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff;
+  backdrop-filter: blur(2px);
+ }
+
   .counter.zero{
-    background:#ffdddd;
-    border-color:#d00;
-    color:#900;
+    background: rgba(255,255,255,0.20);
+    border-color:#FF0000;
+    color:#FF0000;
   }
 </style>
 </head>
@@ -88,14 +94,59 @@
 
 <script>
 // ここに色の位置を追加していく
-const markers = [
-  { code:'BV00', x:15, y:18.3 },
-  { code:'BV04', x:25, y:18.3 },
-  { code:'BV08', x:35, y:18.3 },
-  { code:'BV23', x:45, y:18.3 },
-  { code:'BV31', x:55, y:18.3 }
+// コード一覧（色名は不要）
+const codes = [
+  'BV000','BV00','BV02','BV04','BV08','BV13','BV17','BV23',
+  'BV25','BV29','BV31','V000','V01','V04','V05','V06',
+  'V09','V12','V15','V17','V91','V95','RV000','RV02',
+  'RV04','RV06','RV10','RV13','RV14','RV21','RV23','RV29',
+  'RV34','RV42','RV69','RV95','R000','R00','R02','R05',
+  'R11','R14','R17','R20','R22','R27','R29','R32',
+  'R35','R37','R46','R59','R81','R85','YR000','YR00',
+  'YR02','YR04','YR07','YR15','YR16','YR20','YR23','YR31',
+  'YR61','YR68','Y000','Y00','Y02','Y06','Y08','Y11',
+  'Y15','Y17','Y21','Y28','Y35','Y38','YG00','YG03',
+  'YG06','YG09','YG11','YG17','YG23','YG41','YG63','YG67',
+  'YG91','YG95','G000','G00','G02','G05','G07','G14',
+  'G17','G21','G28','G29','G82','G85','G94','G99',
+  'BG000','BG01','BG05','BG09','BG10','BG13','BG15','BG23',
+  'BG34','BG49','BG72','BG93','BG96','B000','B00','B02',
+  'B05','B12','B18','B23','B24','B28','B29','B32',
+  'B39','B45','B60','B63','B93','B95','B97','B99',
+  'E000','E00','E02','E04','E08','E11','E15','E18',
+  'E21','E25','E29','E31','E33','E35','E37','E40',
+  'E41','E43','E47','E49','E50','E51','E53','E57',
+  'E59','E71','E77','E79','E93','E95','C-0','C-1',
+  'C-2','C-3','C-5','C-7','W-0','W-1','W-2','W-3',
+  'W-5','W-7','0','100'
 ];
 
+const cols = 8;
+const startX = 15;
+const startY = 18.3;
+const stepX = 10;
+const stepY = 3.045;
+
+const totalRows = Math.ceil(codes.length / cols);
+const lastRowCount = codes.length % cols || cols;
+
+const markers = codes.map((code, index) => {
+  const col = index % cols;
+  const row = Math.floor(index / cols);
+
+  // 最終行だけ中央寄せ
+  let offset = 0;
+  if (row === totalRows - 1 && lastRowCount < cols) {
+    offset = ((cols - lastRowCount) * stepX) / 2;
+  }
+
+  return {
+    code,
+    x: startX + offset + col * stepX,
+    y: startY + row * stepY
+  };
+});
+  
 const board = document.getElementById('board');
 
 function getStock(code){
