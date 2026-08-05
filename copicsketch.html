@@ -77,6 +77,27 @@
     border-color:#FF0000;
     color:#FF0000;
   }
+
+  @media print {
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+
+  .toolbar{
+    display:none !important;
+  }
+
+  body{
+    background:white;
+    margin:0;
+  }
+
+  .board{
+    width:100%;
+    margin:0;
+  }
+}
 </style>
 </head>
 
