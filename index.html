@@ -88,11 +88,11 @@
 <script>
 // ここに色の位置を追加していく
 const markers = [
-  { code:'BV00', x:18, y:12 },
-  { code:'BV04', x:27, y:12 },
-  { code:'BV08', x:36, y:12 },
-  { code:'V04',  x:45, y:12 },
-  { code:'V09',  x:54, y:12 }
+  { code:'BV00', x:17, y:18 },
+  { code:'BV04', x:28, y:18 },
+  { code:'BV08', x:39, y:18 },
+  { code:'BV23', x:50, y:18 },
+  { code:'BV31', x:61, y:18 }
 ];
 
 const board = document.getElementById('board');
@@ -119,23 +119,19 @@ markers.forEach(m => {
   let value = getStock(m.code);
   updateDisplay(el, value);
 
-  // タップで+1
-  el.addEventListener('click', () => {
-    value++;
-    setStock(m.code, value);
-    updateDisplay(el, value);
-  });
+  // シングルクリックで+1
+el.addEventListener('click', () => {
+  value++;
+  localStorage.setItem(m.code, value);
+  el.textContent = value;
+});
 
-  // 長押しで-1
-  let timer;
-  el.addEventListener('touchstart', () => {
-    timer = setTimeout(() => {
-      value = Math.max(0, value - 1);
-      setStock(m.code, value);
-      updateDisplay(el, value);
-    }, 600);
-  });
-
+// ダブルクリックで-1
+el.addEventListener('dblclick', () => {
+  value = Math.max(0, value - 1);
+  localStorage.setItem(m.code, value);
+  el.textContent = value;
+});
   el.addEventListener('touchend', () => clearTimeout(timer));
   el.addEventListener('mousedown', () => {
     timer = setTimeout(() => {
@@ -144,6 +140,7 @@ markers.forEach(m => {
       updateDisplay(el, value);
     }, 600);
   });
+  
   el.addEventListener('mouseup', () => clearTimeout(timer));
 
   board.appendChild(el);
