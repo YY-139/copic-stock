@@ -78,9 +78,10 @@
   }
 
   @media print {
+
   @page {
     size: A4 portrait;
-    margin: 0;
+    margin: 10mm;
   }
 
   .toolbar{
@@ -89,21 +90,20 @@
 
   body{
     background:white;
-    margin:0;
   }
 
   .board{
-    position: relative;
-    break-inside: avoid;
-    page-break-inside: avoid;
-
     width:900px;
     margin:0;
+    position:relative;
+    padding-top:30px;
   }
 
   .board img{
     width:900px;
     height:auto;
+  }
+
   }
 
   .counter{
@@ -113,11 +113,6 @@
     height:24px;
     font-size:11px;
     border-width:1px;
-    display: inline-block;
-    break-inside: avoid;
-    page-break-inside: avoid;
-    page-break-before: avoid;
-    page-break-after: avoid;
   }
 }
 </style>
