@@ -96,8 +96,10 @@
   .board{
     width:90%;
     margin:0 auto;
-    break-inside: avoid;
-    page-break-inside: avoid;
+
+    /* ここが重要 */
+    transform: scale(0.78);
+    transform-origin: top center;
   }
 
   .board img{
