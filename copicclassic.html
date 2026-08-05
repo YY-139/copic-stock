@@ -194,23 +194,20 @@ markers.forEach((m, index) => {
 
   let lastTap = 0;
 
-// シングルクリック
-el.addEventListener('click', () => {
-  const now = Date.now();
+  el.addEventListener('click', () => {
+    const now = Date.now();
 
-  // 300ms以内ならダブルタップ
-  if (now - lastTap < 300) {
-    value = Math.max(0, value - 2);
-  } else {
-    value++;
-  }
+    if (now - lastTap < 300) {
+      value = Math.max(0, value - 2);
+    } else {
+      value++;
+    }
 
-  lastTap = now;
-  localStorage.setItem(m.code, value);
-  updateDisplay(el, value);
-});
+    lastTap = now;
+    localStorage.setItem(m.code, value);
+    updateDisplay(el, value);
+  });
 
-  // ←これが超重要！画面に追加してる
   board.appendChild(el);
 });
 
