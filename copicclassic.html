@@ -96,6 +96,13 @@
   .board{
     width:100%;
     margin:0;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .board img{
+    width:100%;
+    height:auto;
   }
 }
 </style>
@@ -174,17 +181,8 @@ function updateDisplay(el, value){
   el.classList.toggle('zero', value === 0);
 }
 
-const rowsPerPage = 18;
-
 markers.forEach((m, index) => {
   const row = Math.floor(index / cols);
-
-  // 改ページ位置
-  if(index > 0 && row % rowsPerPage === 0 && index % cols === 0){
-    const br = document.createElement('div');
-    br.className = 'page-break';
-    board.appendChild(br);
-  }
 
   const el = document.createElement('div');
   el.className = 'counter';
