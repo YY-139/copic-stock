@@ -88,11 +88,11 @@
 <script>
 // ここに色の位置を追加していく
 const markers = [
-  { code:'BV00', x:16, y:18.5 },
-  { code:'BV04', x:27, y:18.5 },
-  { code:'BV08', x:38, y:18.5 },
-  { code:'BV23', x:49, y:18.5 },
-  { code:'BV31', x:60, y:18.5 }
+  { code:'BV00', x:15, y:18.3 },
+  { code:'BV04', x:25, y:18.3 },
+  { code:'BV08', x:35, y:18.3 },
+  { code:'BV23', x:45, y:18.3 },
+  { code:'BV31', x:55, y:18.3 }
 ];
 
 const board = document.getElementById('board');
@@ -122,7 +122,7 @@ el.addEventListener('click', () => {
 
   // 300ms以内ならダブルタップ
   if (now - lastTap < 300) {
-    value = Math.max(0, value - 1);
+    value = Math.max(0, value - 2);
   } else {
     value++;
   }
