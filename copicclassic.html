@@ -174,7 +174,18 @@ function updateDisplay(el, value){
   el.classList.toggle('zero', value === 0);
 }
 
-markers.forEach(m => {
+const rowsPerPage = 18;
+
+markers.forEach((m, index) => {
+  const row = Math.floor(index / cols);
+
+  // 改ページ位置
+  if(index > 0 && row % rowsPerPage === 0 && index % cols === 0){
+    const br = document.createElement('div');
+    br.className = 'page-break';
+    board.appendChild(br);
+  }
+
   const el = document.createElement('div');
   el.className = 'counter';
   el.style.left = m.x + '%';
@@ -184,6 +195,23 @@ markers.forEach(m => {
   updateDisplay(el, value);
 
   let lastTap = 0;
+
+  el.addEventListener('click', () => {
+    const now = Date.now();
+
+    if (now - lastTap < 300) {
+      value = Math.max(0, value - 2);
+    } else {
+      value++;
+    }
+
+    lastTap = now;
+    localStorage.setItem(m.code, value);
+    updateDisplay(el, value);
+  });
+
+  board.appendChild(el);
+});
 // シングルクリック
 el.addEventListener('click', () => {
   const now = Date.now();
