@@ -77,34 +77,6 @@
     color:#FF0000;
   }
 
-  .page{
-  width:min(100vw, 900px);
-  height:1160px;
-  overflow:hidden;
-  position:relative;
-  page-break-after:always;
-}
-
-.page:last-child{
-  page-break-after:auto;
-}
-
-.top .board{
-  top:0;
-}
-
-.middle .board{
-  top:-1160px;
-}
-
-.bottom .board{
-  top:-2320px;
-}
-
-.board{
-  position:relative;
-}
-
   @media print {
   @page {
     size: A4 portrait;
@@ -148,22 +120,8 @@
   <button onclick="window.print()">PDF出力</button>
 </div>
 
-<div class="page top">
-  <div class="board" id="board1">
-    <img src="copicclassic.png" alt="コピッククラシック">
-  </div>
-</div>
-
-<div class="page middle">
-  <div class="board" id="board2">
-    <img src="copicclassic.png" alt="コピッククラシック">
-  </div>
-</div>
-
-<div class="page bottom">
-  <div class="board" id="board3">
-    <img src="copicclassic.png" alt="コピッククラシック">
-  </div>
+<div class="board" id="board">
+  <img src="copicclassic.png" alt="コピッククラシック">
 </div>
   
 </div>
@@ -218,11 +176,7 @@ const markers = codes.map((code, index) => {
   };
 });
   
-const boards = [
-  document.getElementById('board1'),
-  document.getElementById('board2'),
-  document.getElementById('board3')
-];
+const board = document.getElementById('board');
 
 function getStock(code){
   return Number(localStorage.getItem(code) || 0);
@@ -260,10 +214,7 @@ markers.forEach((m, index) => {
     updateDisplay(el, value);
   });
 
-  boards.forEach(board => {
-  board.appendChild(el.cloneNode(true));
-  });
-});
+ board.appendChild(el);
 
 function resetStock(){
   if(confirm('在庫をすべて0にしますか？')){
