@@ -88,11 +88,11 @@
 <script>
 // ここに色の位置を追加していく
 const markers = [
-  { code:'BV00', x:17, y:18 },
-  { code:'BV04', x:28, y:18 },
-  { code:'BV08', x:39, y:18 },
-  { code:'BV23', x:50, y:18 },
-  { code:'BV31', x:61, y:18 }
+  { code:'BV00', x:15, y:19 },
+  { code:'BV04', x:26, y:19 },
+  { code:'BV08', x:37, y:19 },
+  { code:'BV23', x:48, y:19 },
+  { code:'BV31', x:59, y:19 }
 ];
 
 const board = document.getElementById('board');
@@ -119,7 +119,7 @@ markers.forEach(m => {
   let value = getStock(m.code);
   updateDisplay(el, value);
 
-  // シングルクリックで+1
+ // シングルクリックで+1
 el.addEventListener('click', () => {
   value++;
   localStorage.setItem(m.code, value);
@@ -131,19 +131,6 @@ el.addEventListener('dblclick', () => {
   value = Math.max(0, value - 1);
   localStorage.setItem(m.code, value);
   el.textContent = value;
-});
-  el.addEventListener('touchend', () => clearTimeout(timer));
-  el.addEventListener('mousedown', () => {
-    timer = setTimeout(() => {
-      value = Math.max(0, value - 1);
-      setStock(m.code, value);
-      updateDisplay(el, value);
-    }, 600);
-  });
-  
-  el.addEventListener('mouseup', () => clearTimeout(timer));
-
-  board.appendChild(el);
 });
 
 function resetStock(){
