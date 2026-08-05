@@ -214,7 +214,8 @@ markers.forEach((m, index) => {
     updateDisplay(el, value);
   });
 
- board.appendChild(el);
+   board.appendChild(el);
+}); // ← 追加！
 
 function resetStock(){
   if(confirm('在庫をすべて0にしますか？')){
