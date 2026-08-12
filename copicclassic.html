@@ -88,16 +88,14 @@
     display:none !important;
   }
 
+  /* ← これを追加 */
+  #board{
+    display:none !important;
+  }
+
   body{
     background:white;
     margin:0;
-    display:block;
-  }
-
-  .board{
-  width:100%;
-  margin:0;
-  padding-top:20mm; /* ← ここを調整 */
   }
 
   #printPages{
@@ -132,10 +130,6 @@
     font-size:11px;
     border-width:1px;
   }
-}
-
-#printPages{
-  display:none;
 }
 </style>
 </head>
@@ -260,45 +254,48 @@ function resetStock(){
 
 function createPrintPages(){
 
-  const printPages = document.getElementById('printPages');
-  printPages.innerHTML = '';
+  // 行番号でページ区切り
+const pageRows = [
+  { start: 0, end: 5 },         // BV〜YR
+  { start: 5, end: 9 },         // Y〜B
+  { start: 9, end: totalRows }  // E〜最後
+];
 
-  // 3分割（割合で指定）
-  const pages = [
-    { top: 0,    bottom: 34 },  // BV〜YRくらい
-    { top: 34,   bottom: 68 },  // Y〜Bくらい
-    { top: 68,   bottom: 100 }  // E〜グレー
-  ];
+pageRows.forEach(p => {
 
-  pages.forEach(p => {
+  const page = document.createElement('div');
+  page.className = 'print-page';
 
-    const page = document.createElement('div');
-    page.className = 'print-page';
+  const topPct = startY + p.start * stepY;
+  const bottomPct = startY + p.end * stepY;
 
-    const img = document.createElement('img');
-    img.src = document.querySelector('#board img').src;
-    img.style.top = `-${p.top}%`;
+  const img = document.createElement('img');
+  img.src = document.querySelector('#board img').src;
+  img.style.top = `-${topPct}%`;
 
-    page.appendChild(img);
+  page.appendChild(img);
 
-    markers.forEach(m => {
-      if(m.y >= p.top && m.y < p.bottom){
+  markers.forEach(m => {
 
-        const el = document.createElement('div');
-        el.className = 'counter';
+    const row = Math.floor((m.y - startY) / stepY);
 
-        el.style.left = m.x + '%';
-        el.style.top  = ((m.y - p.top) / (p.bottom - p.top) * 100) + '%';
+    if(row >= p.start && row < p.end){
 
-        updateDisplay(el, getStock(m.code));
+      const el = document.createElement('div');
+      el.className = 'counter';
 
-        page.appendChild(el);
-      }
-    });
+      el.style.left = m.x + '%';
+      el.style.top =
+        ((m.y - topPct) / (bottomPct - topPct) * 100) + '%';
 
-    printPages.appendChild(page);
+      updateDisplay(el, getStock(m.code));
+
+      page.appendChild(el);
+    }
   });
-}
+
+  printPages.appendChild(page);
+});
 
 window.addEventListener('beforeprint', createPrintPages);
 
