@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>コピッククラシック 印刷用</title>
+
+<style>
+  body{
+    margin:0;
+    background:white;
+    font-family:sans-serif;
+  }
+
+  .toolbar{
+    position:sticky;
+    top:0;
+    background:white;
+    padding:10px;
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    border-bottom:1px solid #ddd;
+  }
+
+  button{
+    padding:10px 16px;
+    border:none;
+    border-radius:10px;
+    background:#333;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+  }
+
+  .page{
+    position:relative;
+    width:210mm;
+    height:297mm;
+    overflow:hidden;
+    margin:0 auto 20px;
+    background:white;
+  }
+
+  .page img{
+    position:absolute;
+    left:0;
+    width:100%;
+    height:auto;
+  }
+
+  .counter{
+    position:absolute;
+    width:24px;
+    height:24px;
+    border-radius:50%;
+    border:1px solid #f00;
+    color:#f00;
+    background:rgba(255,255,255,.7);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:bold;
+    transform:translate(-50%,-50%);
+  }
+
+  @media print{
+    @page{
+      size:A4 portrait;
+      margin:0;
+    }
+
+    .toolbar{
+      display:none;
+    }
+
+    .page{
+      margin:0;
+      break-after:page;
+      page-break-after:always;
+    }
+
+    .page:last-child{
+      break-after:auto;
+      page-break-after:auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <button onclick="window.print()">PDF保存</button>
+</div>
+
+<!-- 1ページ目 -->
+<div class="page" id="page1">
+  <img src="copicclassic.png" style="top:0%">
+</div>
+
+<!-- 2ページ目 -->
+<div class="page" id="page2">
+  <img src="copicclassic.png" style="top:-34%">
+</div>
+
+<!-- 3ページ目 -->
+<div class="page" id="page3">
+  <img src="copicclassic.png" style="top:-68%">
+</div>
+
+<script>
+// ここに今使っている markers 配列をコピペする
+const markers = [];
+
+// 表示用
+function getStock(code){
+  return Number(localStorage.getItem(code) || 0);
+}
+
+function addCounters(pageId, topPct, bottomPct){
+  const page = document.getElementById(pageId);
+
+  markers.forEach(m => {
+    if(m.y >= topPct && m.y < bottomPct){
+
+      const el = document.createElement('div');
+      el.className = 'counter';
+
+      el.style.left = m.x + '%';
+      el.style.top =
+        ((m.y - topPct) / (bottomPct - topPct) * 100) + '%';
+
+      el.textContent = getStock(m.code);
+
+      page.appendChild(el);
+    }
+  });
+}
+
+// 3分割
+addCounters('page1', 0, 34);
+addCounters('page2', 34, 68);
+addCounters('page3', 68, 100);
+</script>
+
+</body>
+</html>
