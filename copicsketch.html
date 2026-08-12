@@ -200,6 +200,8 @@ function updateDisplay(el, value){
   el.classList.toggle('zero', value === 0);
 }
 
+const fragment = document.createDocumentFragment();
+
 markers.forEach(m => {
   const el = document.createElement('div');
   el.className = 'counter';
@@ -210,25 +212,27 @@ markers.forEach(m => {
   updateDisplay(el, value);
 
   let lastTap = 0;
-// シングルクリック
-el.addEventListener('click', () => {
-  const now = Date.now();
 
-  // 300ms以内ならダブルタップ
-  if (now - lastTap < 300) {
-    value = Math.max(0, value - 2);
-  } else {
-    value++;
-  }
+  el.addEventListener('click', () => {
+    const now = Date.now();
 
-  lastTap = now;
-  localStorage.setItem(m.code, value);
-  updateDisplay(el, value);
+    if (now - lastTap < 300) {
+      value = Math.max(0, value - 2);
+    } else {
+      value++;
+    }
+
+    lastTap = now;
+    localStorage.setItem(m.code, value);
+    updateDisplay(el, value);
+  });
+
+  fragment.appendChild(el);
 });
 
-  // ←これが超重要！画面に追加してる
-  board.appendChild(el);
-});
+// 最後に1回だけ追加
+board.appendChild(fragment);
+
 
 function resetStock(){
   if(confirm('在庫をすべて0にしますか？')){
