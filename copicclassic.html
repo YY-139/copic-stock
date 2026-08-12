@@ -186,9 +186,9 @@ function updateDisplay(el, value){
   el.classList.toggle('zero', value === 0);
 }
 
-markers.forEach((m, index) => {
-  const row = Math.floor(index / cols);
+const fragment = document.createDocumentFragment();
 
+markers.forEach(m => {
   const el = document.createElement('div');
   el.className = 'counter';
   el.style.left = m.x + '%';
@@ -213,8 +213,12 @@ markers.forEach((m, index) => {
     updateDisplay(el, value);
   });
 
-   board.appendChild(el);
-}); // ← 追加！
+  fragment.appendChild(el);
+});
+
+// 最後に1回だけ追加
+board.appendChild(fragment);
+
 
 function resetStock(){
   if(confirm('在庫をすべて0にしますか？')){
