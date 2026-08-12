@@ -111,7 +111,22 @@
 
 <script>
 // ここに今使っている markers 配列をコピペする
-const markers = [];
+const markers = codes.map((code, index) => {
+  const col = index % cols;
+  const row = Math.floor(index / cols);
+
+  // 最終行だけ中央寄せ
+  let offset = 0;
+  if (row === totalRows - 1 && lastRowCount < cols) {
+    offset = ((cols - lastRowCount) * stepX) / 2;
+  }
+
+  return {
+    code,
+    x: startX + offset + col * stepX,
+    y: startY + row * stepY
+  };
+});
 
 // 表示用
 function getStock(code){
