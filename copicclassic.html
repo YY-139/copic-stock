@@ -81,10 +81,11 @@
 
   @page {
     size: A4 portrait;
-    margin:0;
+    margin: 0;
   }
 
-  .toolbar{
+  .toolbar,
+  #board{
     display:none !important;
   }
 
@@ -93,22 +94,42 @@
     margin:0;
   }
 
-  .board{
-    width:min(100vw,850px);
-    margin:0 auto;
+  #printPages{
+    display:block;
   }
 
-  .board img{
+  .print-page{
+    position:relative;
+    width:100%;
+    height:297mm;
+    overflow:hidden;
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .print-page:last-child{
+    break-after:auto;
+    page-break-after:auto;
+  }
+
+  .print-page img{
+    position:absolute;
+    left:0;
     width:100%;
     height:auto;
   }
 
-  .counter{
+  .print-page .counter{
+    position:absolute;
     width:24px;
     height:24px;
     font-size:11px;
     border-width:1px;
   }
+}
+
+#printPages{
+  display:none;
 }
 </style>
 </head>
@@ -124,6 +145,9 @@
 <div class="board" id="board">
   <img src="copicclassic.png" alt="コピッククラシック">
 </div>
+
+<!-- 印刷専用 -->
+<div id="printPages"></div>
 
 <script>
 // ここに色の位置を追加していく
@@ -226,6 +250,52 @@ function resetStock(){
     location.reload();
   }
 }
+
+
+function createPrintPages(){
+
+  const printPages = document.getElementById('printPages');
+  printPages.innerHTML = '';
+
+  // 3分割（割合で指定）
+  const pages = [
+    { top: 0,    bottom: 34 },  // BV〜YRくらい
+    { top: 34,   bottom: 68 },  // Y〜Bくらい
+    { top: 68,   bottom: 100 }  // E〜グレー
+  ];
+
+  pages.forEach(p => {
+
+    const page = document.createElement('div');
+    page.className = 'print-page';
+
+    const img = document.createElement('img');
+    img.src = document.querySelector('#board img').src;
+    img.style.top = `-${p.top}%`;
+
+    page.appendChild(img);
+
+    markers.forEach(m => {
+      if(m.y >= p.top && m.y < p.bottom){
+
+        const el = document.createElement('div');
+        el.className = 'counter';
+
+        el.style.left = m.x + '%';
+        el.style.top  = ((m.y - p.top) / (p.bottom - p.top) * 100) + '%';
+
+        updateDisplay(el, getStock(m.code));
+
+        page.appendChild(el);
+      }
+    });
+
+    printPages.appendChild(page);
+  });
+}
+
+window.addEventListener('beforeprint', createPrintPages);
+
 </script>
 
 </body>
