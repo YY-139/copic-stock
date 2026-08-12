@@ -110,6 +110,17 @@
 </div>
 
 <script>
+const codes = codeText.trim().split(/\s+/);
+
+const cols = 8;
+const startX = 15;
+const startY = 18.3;
+const stepX = 10;
+const stepY = 3.045;
+
+const totalRows = Math.ceil(codes.length / cols);
+const lastRowCount = codes.length % cols || cols;
+  
 // ここに今使っている markers 配列をコピペする
 const markers = codes.map((code, index) => {
   const col = index % cols;
