@@ -64,6 +64,12 @@
     font-size:11px;
     font-weight:bold;
     transform:translate(-50%,-50%);
+
+    text-shadow:
+    -1px -1px 0 #fff,
+     1px -1px 0 #fff,
+    -1px  1px 0 #fff,
+     1px  1px 0 #fff;
   }
 
   @media print{
@@ -158,8 +164,9 @@ function addCounters(pageId, topPct, bottomPct){
       el.style.top =
         ((m.y - topPct) / (bottomPct - topPct) * 100) + '%';
 
-      el.textContent = getStock(m.code);
-
+      const value = getStock(m.code);
+      el.textContent = value;
+      
       page.appendChild(el);
     }
   });
